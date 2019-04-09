@@ -1,0 +1,75 @@
+{
+  "name": "webpack-utils",
+  "version": "2.0.1",
+  "description": "A Collations of webpack utils. Build webpack project happily",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:mycoin/webpack-utils.git"
+  },
+  "author": {
+    "name": "mycoin",
+    "email": "nqliujiangtao@gmail.com"
+  },
+  "main": "index.js",
+  "bin": {
+    "webpack-builder": "./bin/webpack-builder"
+  },
+  "dependencies": {
+    "autoprefixer": "^9.5.0",
+    "babel-core": "^6.7.6",
+    "babel-loader": "^7.1.5",
+    "babel-plugin-add-module-exports": "^0.1.4",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
+    "babel-plugin-syntax-jsx": "^6.18.0",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-proto-to-assign": "^6.9.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-polyfill": "^6.13.0",
+    "babel-preset-es2015": "^6.6.0",
+    "babel-preset-react": "^6.5.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "case-sensitive-paths-webpack-plugin": "^2.2.0",
+    "clean-webpack-plugin": "^2.0.1",
+    "console-emoji": "^0.0.2",
+    "copy-webpack-plugin": "^4.3.1",
+    "css-loader": "^2.1.1",
+    "cssnano": "^4.1.10",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "fast-css-loader": "^1.0.2",
+    "fast-sass-loader": "^1.4.7",
+    "html-loader": "^0.5.5",
+    "less-loader": "^4.1.0",
+    "node-sass": "^4.11.0",
+    "postcss-import": "^12.0.1",
+    "postcss-loader": "^3.0.0",
+    "postcss-preset-env": "^6.6.0",
+    "progress-bar-webpack-plugin": "^1.12.1",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1",
+    "ts-loader": "^5.3.3",
+    "twig": "^1.13.2",
+    "twig-loader": "^0.4.1",
+    "url-loader": "^1.1.2",
+    "webpack": "^3.12.0",
+    "webpack-assets-manifest": "^1.0.0",
+    "webpack-dev-server": "^2.11.5",
+    "webpack-livereload-plugin": "^1.2.0",
+    "webpack-merge": "^4.2.1",
+    "webpack-runtime-public-path-plugin": "^1.1.2",
+    "write-file-webpack-plugin": "^4.5.0",
+    "yargs-parser": "^13.0.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^6.0.4",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-google": "^0.9.1",
+    "eslint-import-resolver-webpack": "^0.8.3",
+    "eslint-plugin-import": "^2.14.0",
+    "simple-progress-webpack-plugin": "^1.1.2"
+  },
+  "engines": {
+    "node": "^6.16.0"
+  },
+  "license": "MIT"
+}
