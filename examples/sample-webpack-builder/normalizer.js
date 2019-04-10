@@ -1,16 +1,17 @@
+/* eslint-disable prefer-template */
+/* eslint-disable no-plusplus */
 /* eslint-disable global-require, import/no-dynamic-require */
 const { defaults, utils } = require('../..')
 
 const { resolvePath, extendIfNecessary } = utils
 const { defaultWebpackConfig, defaultWebpackOptions } = defaults
+
 const initDevServer = (listenOpt) => {
   const defaultDevServerOpt = {
     host: '127.0.0.1',
     port: 4444,
-    stats: {
-      colors: true,
-    },
   }
+
   if (listenOpt && typeof listenOpt === 'object') {
     return extendIfNecessary(defaultDevServerOpt, listenOpt)
   } if (typeof listenOpt === 'string') {
@@ -24,37 +25,67 @@ const initDevServer = (listenOpt) => {
   return defaultDevServerOpt
 }
 
-module.exports = (buildConfig, options) => {
+const buildConfigValidator = (provideredConfig) => {
+  const provideredOptionNames = Object.keys(provideredConfig)
+  const validOptionKeyNames = Object.keys(defaultWebpackOptions).concat([
+    'webpack',
+    'optimize',
+    'listen',
+  ])
+
+  for (let index = 0; index < provideredOptionNames.length; index++) {
+    const fieldItem = provideredOptionNames[index]
+    if (validOptionKeyNames.indexOf(fieldItem) === -1) { // eslint-disable-line
+      throw new TypeError(
+        'webpackOptions has an unknown field "' + fieldItem + '", '
+        + 'valid properties are: '
+        + validOptionKeyNames.join(', ')
+      )
+    }
+  }
+  return true
+}
+
+module.exports = (buildConfig, cliOptions) => {
+  if (!buildConfigValidator(buildConfig)) {
+    process.exit(1)
+  }
+
   const webpackOptions = extendIfNecessary(defaultWebpackOptions, buildConfig)
   const resolvedPaths = resolvePath(webpackOptions.context)
   const webpackConfig = extendIfNecessary(defaultWebpackConfig(resolvedPaths), buildConfig.webpack)
 
-  if (!defaultWebpackOptions.normalizedPaths) {
-    webpackOptions.normalizedPaths = resolvedPaths
-  }
+  // paths that webpack needed
+  webpackOptions.normalizedPaths = resolvedPaths
+  webpackConfig.devServer = initDevServer(buildConfig.listen)
 
   // isDevelopment
-  if (options.nodeEnv === 'development') {
+  if (cliOptions.nodeEnv === 'development') {
     webpackOptions.isDevelopment = true
-  } else if (options.nodeEnv === 'production') {
+  } else if (cliOptions.nodeEnv === 'production') {
     webpackOptions.isDevelopment = false
   }
 
+  // isProduction field
+  webpackOptions.isProduction = !webpackOptions.isDevelopment
+
   // init DevServer if development
   if (webpackOptions.isDevelopment) {
-    webpackConfig.devServer = initDevServer(buildConfig.listen)
     if (typeof buildConfig.liveReloadOptions === 'number' && buildConfig.liveReloadOptions > 0) {
       webpackOptions.liveReloadOptions = {
         port: buildConfig.liveReloadOptions,
       }
     }
-  } else {
-    webpackOptions.isProduction = true
+  }
+
+  // stats options
+  if (!webpackOptions.statsOptions) {
+    webpackOptions.statsOptions = cliOptions.verbose ? 'verbose' : 'normal'
   }
 
   // 其它额外配置项
   if (buildConfig.optimize) {
-    webpackOptions.optimizeActived = true
+    webpackOptions.optimize = true
     webpackOptions.cssLoaderName = 'fast-css-loader'
     webpackOptions.scssLoaderName = 'fast-sass-loader'
   }

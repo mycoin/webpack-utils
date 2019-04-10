@@ -8,9 +8,7 @@ process.on('unhandledRejection', (err) => {
   throw err
 })
 
-const argv = process.argv.slice(3)
-const params = parser(argv)
-
+const params = parser(process.argv.slice(3))
 if (params.production) {
   process.env.NODE_ENV = 'production'
 }
