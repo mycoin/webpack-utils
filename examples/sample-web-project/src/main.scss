@@ -1,0 +1,19 @@
+@import '@/assets/index.scss';
+
+.takla-main {
+  width: 1120px;
+  margin: 20px auto 0;
+}
+
+.block-layout {
+  background: #FFF;
+  min-height: 360px;
+  box-shadow: 0 0 8px #eee;
+
+  .section-container {
+    .block-content {
+      margin: 10px 20px;
+      border-top: 1px solid #e8e8e8;
+    }
+  }
+}

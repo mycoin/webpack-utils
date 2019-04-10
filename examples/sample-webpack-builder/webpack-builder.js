@@ -18,16 +18,23 @@ module.exports = (actionName, cliOptions) => {
     throw new TypeError('Unknown action "' + actionName + '", available actions:  ' + availableActions.join(', '))
   }
 
-  let buildConfig = requireGivenModule(cliOptions.config || 'build.config.js')
+  const configLocate = cliOptions.config || 'build.config.js'
+  let buildConfig = requireGivenModule(configLocate)
   if (typeof buildConfig === 'function') {
     const builtResult = buildConfig(webpack, cliOptions)
     if (builtResult && typeof builtResult === 'object') {
       buildConfig = builtResult
     }
+  } else if (!buildConfig) {
+    throw new TypeError('config file not found: ' + configLocate)
   }
 
   const { webpackConfig, webpackOptions } = normalizer(buildConfig, cliOptions)
   const webpackConf = webpackCoreFactory(webpackConfig, webpackOptions)
 
-  webpackRun(actionNameAlias[actionName], webpackConf, webpackOptions)
+  webpackRun(
+    actionNameAlias[actionName],
+    webpackConf,
+    webpackOptions
+  )
 }

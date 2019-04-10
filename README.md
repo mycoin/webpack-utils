@@ -2,15 +2,13 @@
 
 This package includes some utilities for quick webpack builder
 
-- use webpack3,  [read documentation](https://webpack-3.cdn.bcebos.com/)
-- some features:
+- Use webpack3,  [read documentation](https://webpack-3.cdn.bcebos.com/)
+- Features:
   - babel 6, preset: *es2015*, *react* and *stage-0*
-  - `webpack-runtime-public-path-plugin@1` handle the public path 
-  - `write-file-webpack-plugin` auto emmit to files
-- for more: 
-  - examples [sample-webpack-builder
+  - `webpack-runtime-public-path-plugin@1` setup the public path 
+  - `write-file-webpack-plugin` auto emmit files to "build/"
 
-### how to use ?
+### 1. how to use ? 
 
 ```shell
 npm install webpack-utils --save-dev
@@ -20,14 +18,31 @@ create `build.config.js` like:
 
 ```js
 module.exports = {
-  webpack: {
-    entry: {
-      'main': '@/main',
-      'vendor-base': '@/vendors/vendor-base',
-      'vendor-exten': '@/vendors/vendor-exten',
-    },
+  entry: {
+    'main': '@/main',
+    'vendor-base': '@/vendors/vendor-base',
+    'vendor-exten': '@/vendors/vendor-exten',
   },
-  optimize: true,
+  // other config...
+}
+```
+
+main:
+
+```javascript
+
+const { webpack, webpackCoreFactory, webpackRun, utils } = require('webpack-utils')
+
+const { requireGivenModule, resolvePath } = utils
+const buildConfig = requireGivenModule('build.config.js')
+
+// some shorthand options
+const webpackOptions = {
+  context: '.',
+  isDevelopment: true,
+  normalizedPaths: resolvePath('.'),
+
+  statsOptions: 'normal',
   runtimePublicPath: 'Window.globalData.assetsRoot',
   commonChunks: {
     minChunks: Infinity,
@@ -36,40 +51,29 @@ module.exports = {
       'vendor-base',
     ],
   },
-  listen: '127.0.0.1:4434',
+
+  processWebpack: (config, options, webpackInst) => {},
+  middleware: (app, server) => {},
+  afterBuilt: (error, stats) => {},
 }
 
+// build | dev
+webpackRun('dev', webpackCoreFactory(buildConfig, webpackOptions), webpackOptions)
 ```
 
-update the `package.json`
+available `webpackOptions`  see:  <https://github.com/mycoin/webpack-utils/blob/master/lib/defaults.js> 
 
-```json
-...
-"scripts": {
-    "dev": "webpack-builder dev",
-    "build": "webpack-builder build --production",
-    "build-local": "webpack-builder build"
-},
+### 2. examples ?
 
-```
+- builder example [sample-webpack-builder](<https://github.com/mycoin/webpack-utils/tree/master/examples/sample-webpack-builder>)
 
-available options:
+- project example [sample-web-project](https://github.com/mycoin/webpack-utils/tree/master/examples/sample-web-project) 
 
-```
-postcssOptions: null
-babelOptions: null
-cssLoaderName: 'css-loader'
-scssLoaderName: 'sass-loader'
-liveReloadOptions: null
-runtimePublicPath: null
-copyOptions: null
-commonChunks: null
-assetsManifestOptions: null
-normalizedPaths: null
-middleware: () => {}
-processWebpack: null
-afterBuilt: null
-```
+  ```
+  cd examples/sample-web-project && node ../sample-webpack-builder/main.js
+  ```
+
+  goto: <http://127.0.0.1:4444/> 
 
 
 
