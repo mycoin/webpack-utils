@@ -11,7 +11,6 @@ const initDevServer = (listenOpt) => {
       colors: true,
     },
   }
-
   if (listenOpt && typeof listenOpt === 'object') {
     return extendIfNecessary(defaultDevServerOpt, listenOpt)
   } if (typeof listenOpt === 'string') {
