@@ -15,18 +15,22 @@ const React = {
   createElement: () => null
 }
 
-// console.error(
-//   <div></div>
-// );
+// jsx mock
+console.error(
+  <div></div>
+);
 
-setTimeout(() => {
+let index = 2
+
+setInterval(() => {
   const asyncModule = import('@/templates/ajax.twig')  // or `require.ensure`
   const onSuccess = (renderTpl) => {
     setInnerHTML(getElement('takla-async'), renderTpl({
       globalData: Window.globalData,
       imgUrl: logo,
+      indexCount: index *=2 ,
     }))
   }
 
   asyncModule.then(onSuccess)
-}, 1500)
+}, 1000)

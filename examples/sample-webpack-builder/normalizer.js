@@ -3,26 +3,27 @@
 /* eslint-disable global-require, import/no-dynamic-require */
 const { defaults, utils } = require('../..')
 
-const { resolvePath, extendIfNecessary } = utils
-const { defaultWebpackConfig, defaultWebpackOptions } = defaults
+const { extendIfNecessary } = utils
+const { defaultWebpackConfig, defaultWebpackOptions, defaultPathOptions } = defaults
 
 const initDevServer = (listenOpt) => {
-  const defaultDevServerOpt = {
+  const finalServerOpt = {
     host: '127.0.0.1',
     port: 4444,
   }
 
   if (listenOpt && typeof listenOpt === 'object') {
-    return extendIfNecessary(defaultDevServerOpt, listenOpt)
+    return extendIfNecessary(finalServerOpt, listenOpt)
   } if (typeof listenOpt === 'string') {
-    const split = listenOpt.split(':')
+    const splitPath = listenOpt.split(':')
 
-    return extendIfNecessary(defaultDevServerOpt, {
-      host: split[0],
-      port: Number(split[1]) || defaultDevServerOpt.port,
+    return extendIfNecessary(finalServerOpt, {
+      host: splitPath[0],
+      port: Number(splitPath[1]) || finalServerOpt.port,
     })
   }
-  return defaultDevServerOpt
+
+  return finalServerOpt
 }
 
 const buildConfigValidator = (provideredConfig) => {
@@ -43,6 +44,7 @@ const buildConfigValidator = (provideredConfig) => {
       )
     }
   }
+
   return true
 }
 
@@ -51,12 +53,10 @@ module.exports = (buildConfig, cliOptions) => {
     process.exit(1)
   }
 
+  const pathOptions = extendIfNecessary(defaultPathOptions, buildConfig.paths)
   const webpackOptions = extendIfNecessary(defaultWebpackOptions, buildConfig)
-  const resolvedPaths = resolvePath(webpackOptions.context)
-  const webpackConfig = extendIfNecessary(defaultWebpackConfig(resolvedPaths), buildConfig.webpack)
+  const webpackConfig = extendIfNecessary(defaultWebpackConfig(pathOptions), buildConfig.webpack)
 
-  // paths that webpack needed
-  webpackOptions.normalizedPaths = resolvedPaths
   webpackConfig.devServer = initDevServer(buildConfig.listen)
 
   // isDevelopment
@@ -67,6 +67,7 @@ module.exports = (buildConfig, cliOptions) => {
   }
 
   // isProduction field
+  webpackOptions.paths = pathOptions
   webpackOptions.isProduction = !webpackOptions.isDevelopment
 
   // init DevServer if development
@@ -83,13 +84,12 @@ module.exports = (buildConfig, cliOptions) => {
     webpackOptions.statsOptions = cliOptions.verbose ? 'verbose' : 'normal'
   }
 
-  // 其它额外配置项
+  // other config options
   if (buildConfig.optimize) {
     webpackOptions.optimize = true
     webpackOptions.cssLoaderName = 'fast-css-loader'
     webpackOptions.scssLoaderName = 'fast-sass-loader'
   }
-
   return {
     webpackConfig,
     webpackOptions,
