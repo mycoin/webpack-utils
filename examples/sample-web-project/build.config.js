@@ -12,11 +12,11 @@ module.exports = {
   optimize: false,
   paths: {
     buildPath: 'dist',
-    publicPath: 'http://cdn/group/project',
+    publicPath: 'http://127.0.0.1:4444/', // static publicPath ? or `runtimePublicPath`
   },
 
   // see: webpack-runtime-public-path-plugin
-  runtimePublicPath: 'Window.globalData.assetsRoot',
+  runtimePublicPath: '(Window.globalData||{}).assetsRoot||"/"',
 
   // livereload, but <script> is required!
   liveReloadOptions: 35728,
@@ -26,10 +26,10 @@ module.exports = {
     colors: true,
   },
 
-  // copyOptions: [{
-  //   from: 'src/assets/',
-  //   to: 'assets/',
-  // }],
+  copyOptions: [{
+    from: 'src/assets/',
+    to: 'assets/',
+  }],
 
   // commonChunks, passed to webpack.optimize.CommonsChunkPlugin(), Array ot Object
   commonChunks: {

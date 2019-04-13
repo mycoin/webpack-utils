@@ -2,13 +2,13 @@
 
 This package includes some utilities for quick webpack builder
 
-- Use webpack3,  [read documentation](https://webpack-3.cdn.bcebos.com/)
+- Using webpack3,  [documentation](https://webpack-3.cdn.bcebos.com/)
 - Features:
   - babel 6, preset: *es2015*, *react* and *stage-0*
-  - `webpack-runtime-public-path-plugin@1` setup the public path 
+  - `webpack-runtime-public-path-plugin@1` setup the public path
   - `write-file-webpack-plugin` auto emmit files to "build/"
 
-### 1. how to use ? 
+### 1. how to use ?
 
 ```shell
 npm install webpack-utils --save-dev
@@ -39,11 +39,15 @@ const buildConfig = requireGivenModule('build.config.js')
 // some shorthand options
 const webpackOptions = {
   context: '.',
-  isDevelopment: true,
-  normalizedPaths: resolvePath('.'),
-
+	paths: {
+    buildPath: 'dist',
+    publicPath: 'http://127.0.0.1:4444/', // static publicPath ? or `runtimePublicPath`
+  },
   statsOptions: 'normal',
-  runtimePublicPath: 'Window.globalData.assetsRoot',
+  liveReloadOptions: 35728,
+  runtimePublicPath: '(Window.globalData||{}).assetsRoot||"/"',
+
+  copyOptions: [], // copy-webpack-plugin
   commonChunks: {
     minChunks: Infinity,
     name: [
@@ -54,26 +58,27 @@ const webpackOptions = {
 
   processWebpack: (config, options, webpackInst) => {},
   middleware: (app, server) => {},
-  afterBuilt: (error, stats) => {},
+  afterBuilt: (error, stats, context) => {},
+  afterWatched: (server, options, context) => {},
 }
 
-// build | dev
-webpackRun('dev', webpackCoreFactory(buildConfig, webpackOptions), webpackOptions)
+// build | watch
+webpackRun('watch', webpackCoreFactory(buildConfig, webpackOptions), webpackOptions)
 ```
 
-available `webpackOptions`  see:  <https://github.com/mycoin/webpack-utils/blob/master/lib/defaults.js> 
+available `webpackOptions`  see:  <https://github.com/mycoin/webpack-utils/blob/master/lib/defaults.js>
 
 ### 2. examples ?
 
 - builder example [sample-webpack-builder](<https://github.com/mycoin/webpack-utils/tree/master/examples/sample-webpack-builder>)
 
-- project example [sample-web-project](https://github.com/mycoin/webpack-utils/tree/master/examples/sample-web-project) 
+- project example [sample-web-project](https://github.com/mycoin/webpack-utils/tree/master/examples/sample-web-project)
 
   ```
   cd examples/sample-web-project && node ../sample-webpack-builder/main.js
   ```
 
-  goto: <http://127.0.0.1:4444/> 
+  goto: <http://127.0.0.1:4444/>
 
 
 

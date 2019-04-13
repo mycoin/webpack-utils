@@ -7,22 +7,23 @@ const { extendIfNecessary } = utils
 const { defaultWebpackConfig, defaultWebpackOptions, defaultPathOptions } = defaults
 
 const initDevServer = (listenOpt) => {
-  const defaultDevServerOpt = {
+  const finalServerOpt = {
     host: '127.0.0.1',
     port: 4444,
   }
 
   if (listenOpt && typeof listenOpt === 'object') {
-    return extendIfNecessary(defaultDevServerOpt, listenOpt)
+    return extendIfNecessary(finalServerOpt, listenOpt)
   } if (typeof listenOpt === 'string') {
     const splitPath = listenOpt.split(':')
 
-    return extendIfNecessary(defaultDevServerOpt, {
+    return extendIfNecessary(finalServerOpt, {
       host: splitPath[0],
-      port: Number(splitPath[1]) || defaultDevServerOpt.port,
+      port: Number(splitPath[1]) || finalServerOpt.port,
     })
   }
-  return defaultDevServerOpt
+
+  return finalServerOpt
 }
 
 const buildConfigValidator = (provideredConfig) => {
@@ -43,6 +44,7 @@ const buildConfigValidator = (provideredConfig) => {
       )
     }
   }
+
   return true
 }
 
