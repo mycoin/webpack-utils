@@ -1,6 +1,6 @@
 {
   "name": "webpack-utils",
-  "version": "2.1.0",
+  "version": "2.2.1",
   "description": "A Collations of webpack utils. Build webpack project happily",
   "repository": {
     "type": "git",
