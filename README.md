@@ -27,13 +27,15 @@ module.exports = {
 }
 ```
 
+>  available webpackOptions https://github.com/mycoin/webpack-utils/wiki/webpackOptions
+
 main:
 
 ```javascript
 
 const { webpack, webpackCoreFactory, webpackRun, utils } = require('webpack-utils')
 
-const { requireGivenModule, resolvePath } = utils
+const { requireGivenModule } = utils
 const buildConfig = requireGivenModule('build.config.js')
 
 // some shorthand options
@@ -66,8 +68,6 @@ const webpackOptions = {
 webpackRun('watch', webpackCoreFactory(buildConfig, webpackOptions), webpackOptions)
 ```
 
-available `webpackOptions`  see:  <https://github.com/mycoin/webpack-utils/blob/master/lib/defaults.js>
-
 ### 2. examples ?
 
 - builder example [sample-webpack-builder](<https://github.com/mycoin/webpack-utils/tree/master/examples/sample-webpack-builder>)
@@ -84,4 +84,4 @@ available `webpackOptions`  see:  <https://github.com/mycoin/webpack-utils/blob/
 
 ---
 
-@mycoin
+>  nqliujiangtao@gmail.com
