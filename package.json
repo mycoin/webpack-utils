@@ -70,8 +70,7 @@
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-config-google": "^0.9.1",
     "eslint-import-resolver-webpack": "^0.8.3",
-    "eslint-plugin-import": "^2.14.0",
-    "simple-progress-webpack-plugin": "^1.1.2"
+    "eslint-plugin-import": "^2.14.0"
   },
   "engines": {
     "node": "^6.16.0"
