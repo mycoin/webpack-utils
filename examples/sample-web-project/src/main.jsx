@@ -16,8 +16,9 @@ const React = {
 }
 
 // jsx mock
+console.error(22);
 console.error(
-  <div></div>
+  <div>A</div>
 );
 
 let index = 2
@@ -28,7 +29,7 @@ setInterval(() => {
     setInnerHTML(getElement('takla-async'), renderTpl({
       globalData: Window.globalData,
       imgUrl: logo,
-      indexCount: index *=2 ,
+      indexCount: index +=2 ,
     }))
   }
 
