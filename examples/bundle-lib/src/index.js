@@ -3,8 +3,9 @@
 
 // import render from './index.ejs'
 
-import './index.scss'
+// import './index.css'
 // import './index.less'
+import './index.scss'
 
 // const fn = () => {
 //   document.body.innerHTML = '阿里巴巴' + render({})
