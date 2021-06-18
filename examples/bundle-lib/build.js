@@ -2,6 +2,7 @@ const { webpackFactory, WebpackDevServer, webpack } = require('../..')
 
 const fac = webpackFactory({
   extractCSS: true,
+  // mode: 'development',
   mode: 'production',
 })
 
@@ -20,6 +21,6 @@ const watchOption = {
 const compiler = webpack(webpackConfig)
 
 // compiler.watch(watchOption, handler)
-// compiler.run(handler)
+compiler.run(handler)
 
-new WebpackDevServer(compiler, webpackConfig.devServer).listen(8000)
+// new WebpackDevServer(compiler, webpackConfig.devServer).listen(8000)
