@@ -1,19 +1,25 @@
-const { webpackFactory, webpack } = require('../..')
+const { webpackFactory, WebpackDevServer, webpack } = require('../..')
 
-const webpackConfig = webpackFactory({
+const fac = webpackFactory({
   extractCSS: true,
-  mode: 'development',
+  mode: 'production',
 })
 
+const webpackConfig = fac.build()
 const handler = (error, stats) => {
   console.log(stats.toString({
     colors: true,
-    children: true,
+    children: false,
   }))
 }
+
 const watchOption = {
   aggregateTimeout: 500,
 }
 
-// webpack(webpackConfig).watch(watchOption, handler)
-webpack(webpackConfig).run(handler)
+const compiler = webpack(webpackConfig)
+
+// compiler.watch(watchOption, handler)
+// compiler.run(handler)
+
+new WebpackDevServer(compiler, webpackConfig.devServer).listen(8000)
