@@ -1,5 +1,5 @@
-import isObject from 'is-object'
-import isNumber from 'is-number'
+// import isObject from 'is-object'
+// import isNumber from 'is-number'
 
 import render from './index.ejs'
 
@@ -15,3 +15,7 @@ const fn = () => {
 }
 
 fn()
+
+import('is-number').then((x) => {
+  console.error(2, x)
+})

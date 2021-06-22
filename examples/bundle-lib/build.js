@@ -1,24 +1,25 @@
-const { webpackFactory } = require('../..')
+const { webpackFactory, WebpackExecutor } = require('../..')
 
-const fac = webpackFactory({
+const option = {
   extractCSS: true,
-  // mode: 'development',
   mode: 'production',
+  // mode: 'development',
+}
+
+const builder = webpackFactory(option)
+
+builder.devServer({
+  port: 8000,
 })
 
-const compiler = fac.build()
-const handler = (error, stats) => {
+const webpackConfig = builder.doExport()
+const executor = new WebpackExecutor(webpackConfig)
+
+// executor.watch(webpackConfig.devServer)
+
+executor.build((error, stats) => {
   console.log(stats.toString({
     colors: true,
     children: false,
   }))
-}
-
-const watchOption = {
-  aggregateTimeout: 500,
-}
-
-// compiler.watch(watchOption, handler)
-compiler.run(handler)
-
-// new WebpackDevServer(compiler, webpackConfig.devServer).listen(8000)
+})

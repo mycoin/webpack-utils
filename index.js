@@ -1,13 +1,17 @@
 const webpack = require('webpack')
-const WebpackDevServer = require('webpack-dev-server')
-const webpackFactory = require('./lib/webpackFactory')
+
+const createWebpack = require('./lib/createWebpack')
 const loaderProxy = require('./lib/loaderProxy')
-const createWebpackConfig = require('./lib/createWebpackConfig')
+const normalizeOption = require('./lib/normalizeOption')
+const webpackFactory = require('./lib/webpackFactory')
+const WebpackExecutor = require('./lib/WebpackExecutor')
 
 module.exports = {
-  createWebpackConfig,
-  WebpackDevServer,
   webpack,
-  loaderProxy,
+  WebpackExecutor,
   webpackFactory,
+
+  createWebpack,
+  loaderProxy,
+  normalizeOption,
 }
