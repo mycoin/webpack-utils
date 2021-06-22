@@ -6,13 +6,12 @@ const option = {
   // mode: 'development',
 }
 
-const builder = webpackFactory(option)
-
-builder.devServer({
-  port: 8000,
+const webpackConfig = webpackFactory(option, (chain) => {
+  chain.devServer({
+    port: 8000,
+  })
 })
 
-const webpackConfig = builder.doExport()
 const executor = new WebpackExecutor(webpackConfig)
 
 // executor.watch(webpackConfig.devServer)
