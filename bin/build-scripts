@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const parser = require('yargs-parser')
-const { default: cli, logger } = require('..')
+const { cli, logger } = require('../dist')
 
 const argv = process.argv.slice(3)
 const cliParams = parser(argv)
