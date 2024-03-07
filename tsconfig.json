@@ -1,0 +1,14 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "esModuleInterop": true,
+        "noImplicitAny": true,
+        "removeComments": false,
+        "resolveJsonModule": true,
+        "preserveConstEnums": true,
+        "sourceMap": true
+    },
+    "include": [
+        "src"
+    ]
+}
